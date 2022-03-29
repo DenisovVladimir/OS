@@ -1,0 +1,21 @@
+----------DFA----------
+B 
+	1: B Finish 
+	2: B 
+B Finish 
+	1: B Finish 
+	2: B 
+B Finish S 
+	1: B Finish S 
+	2: B 
+	3: Finish S 
+B S 
+	1: B Finish S 
+	2: B 
+	3: Finish S 
+Finish S 
+	1: B S 
+	3: Finish S 
+S 
+	1: B S 
+	3: Finish S 

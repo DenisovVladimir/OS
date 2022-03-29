@@ -1,0 +1,28 @@
+Token: PROGRAM | type: Start program token | string: 0 | pos: 0
+Token: WriteNumber | type: Variable token | string: 0 | pos: 8
+Token: ; | type: End instruction token | string: 0 | pos: 19
+Token: VAR | type: Declaring variables block token | string: 1 | pos: 0
+Token: Number | type: Variable token | string: 2 | pos: 2
+Token: : | type: Declaring variable type token | string: 2 | pos: 8
+Token: INTEGER | type: Variable's type token | string: 2 | pos: 10
+Token: ; | type: End instruction token | string: 2 | pos: 17
+Token: BEGIN | type: Begin scope token | string: 3 | pos: 0
+Token: WRITELN | type: Write with \n token | string: 4 | pos: 2
+Token: ( | type: Open bracket token | string: 4 | pos: 9
+Token: Input number | type: Text literal token | string: 4 | pos: 10
+Token: ) | type: Close bracket token | string: 4 | pos: 24
+Token: ; | type: End instruction token | string: 4 | pos: 25
+Token: READ | type: Read symbol token | string: 5 | pos: 2
+Token: ( | type: Open bracket token | string: 5 | pos: 6
+Token: Number | type: Variable token | string: 5 | pos: 7
+Token: ) | type: Close bracket token | string: 5 | pos: 13
+Token: ; | type: End instruction token | string: 5 | pos: 14
+Token: WRITELN | type: Write with \n token | string: 6 | pos: 2
+Token: ( | type: Open bracket token | string: 6 | pos: 9
+Token: Input number =  | type: Text literal token | string: 6 | pos: 10
+Token: , | type: Split token | string: 6 | pos: 27
+Token: Number | type: Variable token | string: 6 | pos: 29
+Token: ) | type: Close bracket token | string: 6 | pos: 35
+Token: ; | type: End instruction token | string: 6 | pos: 36
+Token: END | type: End scope token | string: 7 | pos: 0
+Token: . | type: End program token | string: 7 | pos: 3

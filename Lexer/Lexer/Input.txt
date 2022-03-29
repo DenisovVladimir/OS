@@ -1,0 +1,122 @@
+PROGRAM Erudite; 
+VAR
+  VocabluaryFile, OutputFile: TEXT;
+  FileName, OutputFileName, VocabluaryWord, EnteredWord: STRING;
+  EnteredWordLength, VocabluaryWordLength: INTEGER;
+  Ch: CHAR;
+  IsVocabluaryWordInEntered: BOOLEAN;
+  
+  
+PROCEDURE GetVocabluaryWord(VAR VocabluaryWord: STRING; VAR VocabluaryFile: TEXT; VAR Ch: CHAR; VAR VocabluaryWordLength: INTEGER);
+BEGIN{GetVocabluaryWord}
+  VocabluaryWord := VocabluaryWord + Ch;
+  VocabluaryWordLength := 1;
+  WHILE (Ch <> ' ') AND NOT EOLN(VocabluaryFile)  
+  DO 
+    BEGIN
+      READ(VocabluaryFile, Ch);
+      IF (Ch <> ' ')
+      THEN
+        BEGIN
+          INC(VocabluaryWordLength);
+          VocabluaryWord := VocabluaryWord + Ch
+        END
+    END
+END;{GetVocabluaryWord}
+
+
+PROCEDURE CheckSameCompositionWords(VAR VocabluaryWord: STRING; VAR VocabluaryWordLength: INTEGER; VAR EnteredWord: STRING; VAR EnteredWordLength: INTEGER; VAR IsVocabluaryWordInEntered: BOOLEAN);
+VAR
+  LowerVocabluaryWord, LowerEnteredWord: STRING;
+  I, J: INTEGER;
+BEGIN{CheckSameCompositionWords}
+  IsVocabluaryWordInEntered := FALSE;
+  LowerVocabluaryWord := LowerCase(VocabluaryWord);
+  LowerEnteredWord := LowerCase(EnteredWord);
+  IF NOT(VocabluaryWordLength > EnteredWordLength)
+  THEN
+    BEGIN
+      FOR I := 1 TO VocabluaryWordLength
+      DO
+        BEGIN
+          FOR J := 1 TO EnteredWordLength
+          DO
+            BEGIN
+              IF (LowerVocabluaryWord[I] = LowerEnteredWord[J])  
+              THEN
+                BEGIN
+                  LowerVocabluaryWord[I] := ' ';
+                  LowerEnteredWord[J] := ' ';
+                  BREAK
+                END  
+            END;
+            IF (LowerVocabluaryWord[I] <> ' ') THEN BREAK
+        END; 
+        IF (LowerVocabluaryWord[VocabluaryWordLength] = ' ') THEN IsVocabluaryWordInEntered := TRUE
+    END
+END;{CheckSameCompositionWords}
+   
+PROCEDURE PrintVocabluaryWord(VAR VocabluaryWord: STRING; VAR OutputFile: TEXT);
+BEGIN
+  WRITELN(OutputFile, VocabluaryWord)
+END;   
+   
+BEGIN{Erudite}
+  WRITELN('Please enter Vocabulary file name: ');
+  READLN(FileName);
+  ASSIGN(VocabluaryFile, FileName); 
+  IF FileExists(FileName) 
+  THEN
+    BEGIN
+      RESET(VocabluaryFile);
+      WRITELN('File "',FileName, '" found');
+      WRITELN('Please enter Output file name: ');
+      READLN(OutputFileName);
+      ASSIGN(OutputFile, OutputFileName); 
+      REWRITE(OutputFile);
+      WRITELN('File "', OutputFileName, '" created');
+      WRITELN(OutputFile, 'Dictionary words that can be composed:');
+      WRITELN('Please, enter word: ');
+      Ch := ' ';
+      WHILE ((Ch = ' ') AND NOT(EOLN))
+      DO
+        READ(Ch);
+      EnteredWord := EnteredWord + Ch;
+      INC(EnteredWordLength);
+      WHILE (Ch <> ' ') AND NOT(EOLN)
+      DO
+        BEGIN
+          READ(Ch);
+          IF (Ch <> ' ')
+          THEN
+            BEGIN
+              EnteredWord := EnteredWord + Ch;
+              INC(EnteredWordLength)
+            END;
+        END;
+      WRITELN('Check ', OutputFileName, ' file');  
+      WHILE NOT EOF(VocabluaryFile)
+      DO
+        BEGIN
+          Ch := ' ';
+          IsVocabluaryWordInEntered := FALSE;
+          WHILE (((Ch = ' ') OR (Ch = #10) OR (Ch = #13)) AND NOT EOF(VocabluaryFile))
+          DO 
+            READ(VocabluaryFile, Ch);  
+          IF (Ch <> ' ')
+          THEN 
+            BEGIN
+              GetVocabluaryWord(VocabluaryWord, VocabluaryFile, Ch, VocabluaryWordLength);
+              CheckSameCompositionWords(VocabluaryWord, VocabluaryWordLength, EnteredWord, EnteredWordLength, IsVocabluaryWordInEntered);
+              IF (IsVocabluaryWordInEntered) 
+              THEN 
+                PrintVocabluaryWord(VocabluaryWord, OutputFile);
+              VocabluaryWord := '';
+              VocabluaryWordLength := 0;
+            END
+        END;  
+      CLOSE(OutputFile)
+    END 
+  ELSE
+    WRITELN('File named "', FileName, '" doesn''t exist')
+END.{Erudite} '

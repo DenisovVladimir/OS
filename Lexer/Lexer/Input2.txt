@@ -1,0 +1,8 @@
+PROGRAM WriteNumber; 
+VAR
+  Number: INTEGER;
+BEGIN
+  WRITELN('Input number');
+  READ(Number);
+  WRITELN('Input number = ', Number);
+END.
